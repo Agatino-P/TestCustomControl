@@ -1,53 +1,70 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace WpfCCLibrary
 {
-    /// <summary>
-    /// Follow steps 1a or 1b and then 2 to use this custom control in a XAML file.
-    ///
-    /// Step 1a) Using this custom control in a XAML file that exists in the current project.
-    /// Add this XmlNamespace attribute to the root element of the markup file where it is 
-    /// to be used:
-    ///
-    ///     xmlns:MyNamespace="clr-namespace:WpfCCLibrary"
-    ///
-    ///
-    /// Step 1b) Using this custom control in a XAML file that exists in a different project.
-    /// Add this XmlNamespace attribute to the root element of the markup file where it is 
-    /// to be used:
-    ///
-    ///     xmlns:MyNamespace="clr-namespace:WpfCCLibrary;assembly=WpfCCLibrary"
-    ///
-    /// You will also need to add a project reference from the project where the XAML file lives
-    /// to this project and Rebuild to avoid compilation errors:
-    ///
-    ///     Right click on the target project in the Solution Explorer and
-    ///     "Add Reference"->"Projects"->[Browse to and select this project]
-    ///
-    ///
-    /// Step 2)
-    /// Go ahead and use your control in the XAML file.
-    ///
-    ///     <MyNamespace:FirstCC/>
-    ///
-    /// </summary>
+
     public class FirstCC : ContentControl
     {
+        private const string PART_tb = "PART_tb";
+        private const string PART_btn = "PART_btn";
+
+        private Button btnTest;
+        protected Button BtnTest
+
+        {
+            get => btnTest;
+            set
+            {
+                if (btnTest != null)
+                {
+                    btnTest.Click -= btn_Click;
+                }
+
+                btnTest = GetTemplateChild(nameof(PART_btn)) as Button;
+
+                if (btnTest!=null)
+                {
+                    btnTest.Click += btn_Click;
+                }
+
+            }
+        }
+
+
+
+
+
+        public Brush InnerBorder
+        {
+            get { return (Brush)GetValue(InnerBorderProperty); }
+            set { SetValue(InnerBorderProperty, value); }
+        }
+        public static readonly DependencyProperty InnerBorderProperty =
+            DependencyProperty.Register("InnerBorder", typeof(Brush), typeof(FirstCC), new PropertyMetadata(Brushes.Black));
+
+
+
         static FirstCC()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(FirstCC), new FrameworkPropertyMetadata(typeof(FirstCC)));
+        }
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+            BtnTest = GetTemplateChild(nameof(PART_btn)) as Button;
+        }
+
+        private void btn_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(GetTemplateChild(nameof(PART_tb)) is TextBlock tb))
+            {
+                return;
+            }
+            tb.Text = DateTime.Now.ToLongTimeString();
         }
     }
 }

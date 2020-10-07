@@ -10,8 +10,11 @@
     Width="800"
     Height="450"
     mc:Ignorable="d">
-    <StackPanel >
-        <ccl:FirstCC BorderBrush="Crimson" BorderThickness="2">
+    <StackPanel>
+        <ccl:FirstCC
+            BorderBrush="Crimson"
+            BorderThickness="2"
+            InnerBorder="Gold">
             <Rectangle
                 Width="100"
                 Height="50"

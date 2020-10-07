@@ -13,11 +13,15 @@
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
-                            <Border x:Name=""
+                            <Border
                                 Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderBrush="{Binding InnerBorder, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
                                 BorderThickness="{TemplateBinding BorderThickness}">
-                                <ContentPresenter />
+                                <StackPanel>
+                                    <ContentPresenter />
+                                    <TextBlock x:Name="PART_tb" Text="tb" />
+                                    <Button x:Name="PART_btn" Content="test" />
+                                </StackPanel>
                             </Border>
                         </Border>
                     </StackPanel>
